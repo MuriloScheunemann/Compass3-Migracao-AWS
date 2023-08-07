@@ -8,7 +8,7 @@ Migração de um e-commerce no modelo on-premisse (local) para a nuvem AWS
 - 1 servidor de web server e que armazena estáticos como fotos e links
 
 ## Descrição nova arquitetura:
-
+![arquitetura](https://github.com/MuriloScheunemann/Compass3-Migracao-AWS/assets/122695407/519615bb-b975-4cc7-8065-c7ff664fdfe0)
 ### Geral: 
 
 O acesso à aplicação é configurado no domínio do site no Rota 53, o serviço de DNS da AWS. O tráfego de entrada passa por um WAF – Web Application Firewall, que é uma camada a mais de segurança para o ambiente. O tráfego é direcionado para um ALB – Application Load Balancer, que o distribui entre as máquinas do cluster Kubernetes. O cluster Kubernetes é implementado com o serviço de EKS – Elastic Kubernetes Service, o qual gerencia o cluster e contém um AutoScaling para as máquinas. As máquinas do cluster rodam a aplicação. Elas se conectam ao banco de dados da aplicação, que é uma instância Amazon RDS. Os snapshots de backup do RDS são armazenados num Bucket S3 Glacier Instant Retrieval. Para comunicação externa, as máquinas do cluster contam com o NAT Gateway, o elemento que possibilita conexão externa para elas. O ambiente ainda oferece um EFS – Elastic File System, o serviço de NFS da Amazon, que é montado nas máquinas armazenando arquivos compartilhados da aplicação. Os estáticos do site são armazenados num Bucket S3 Standard.
