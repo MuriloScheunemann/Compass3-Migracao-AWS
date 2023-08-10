@@ -8,7 +8,7 @@ Migração de um e-commerce no modelo on-premisse (local) para a nuvem AWS
 - 1 servidor de web server e que armazena estáticos como fotos e links
 
 ## Descrição nova arquitetura:
-![diagrama](https://github.com/MuriloScheunemann/Compass3-Migracao-AWS/assets/122695407/eb94ac2d-1383-47e4-b6f4-d333e3524148)
+![diagrama](https://github.com/MuriloScheunemann/Compass3-Migracao-AWS/assets/122695407/c024f419-507c-4209-b645-90e2a54d0fa7)
 ### Geral: 
 
 Os domínios de acesso à aplicação, para usuários e para o administrador, são configurados no Rota 53, o serviço de DNS da AWS. O tráfego de entrada passa por um WAF – Web Application Firewall, que é uma camada a mais de segurança para a aplicação. O tráfego é direcionado para um ALB – Application Load Balancer, que o distribui entre as máquinas do cluster Kubernetes. O cluster Kubernetes é implementado com o serviço de EKS – Elastic Kubernetes Service, o qual gerencia o cluster e contém um AutoScaling para as máquinas. As máquinas do cluster rodam a aplicação. Elas se conectam ao banco de dados da aplicação, que é uma instância Amazon RDS com engine Aurora. Os snapshots de backup do RDS Aurora são armazenados num Bucket S3 Glacier Instant Retrieval. Para comunicação externa, as máquinas do cluster contam com o NAT Gateway, o elemento que possibilita conexão externa para elas. O ambiente ainda oferece um EFS – Elastic File System, o serviço de NFS da Amazon, que é montado nas máquinas armazenando arquivos compartilhados da aplicação. Os estáticos do site são armazenados num Bucket S3 Standard. A parte de monitoramento é feita com o Amazon CloudWatch, para análise de métricas e logs, em conjunto com o Amazon SNS, para envio de notificações. Os usuários do ambiente AWS são configurados no AWS IAM.
@@ -53,7 +53,7 @@ Banco de dados RDS Aurora:
   - 1000GB de exportação de snapshots por mês
 
 ## Estimativa de Custo
-![custo](https://github.com/MuriloScheunemann/Compass3-Migracao-AWS/assets/122695407/b94df13c-34dd-4d85-ab36-d9f1b3843fa8)
+![custo](https://github.com/MuriloScheunemann/Compass3-Migracao-AWS/assets/122695407/8c7ffc50-03f5-439c-8e03-9fa479c3d953)
 
 
 
